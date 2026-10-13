@@ -1,12 +1,13 @@
 [
   {
     "date": "2026-10-03",
-    "title": "Small site fixes: Discord error text, servers refresh, auto-join spacing",
+    "title": "Small site fixes: Discord errors, server refresh, sniper watch, status announcements",
     "items": [
       "Discord verification failures now show the error text Discord sent, without decoding it a second time (a stray % in it could have thrown an error).",
       "The Servers page hops and checks for an open slot from the list it just fetched, instead of acting on the one from 30 seconds earlier.",
       "The Auto-Join row on the Join and Menu pages no longer carries an invisible extra element, so its checkbox and label sit closer together.",
-      "The User Sniper keeps its Snipe button locked while a watch is running, so scans cannot overlap, and it unchecks Keep watching once it finds the player."
+      "The User Sniper keeps its Snipe button locked while a watch is running, so scans cannot overlap, and it unchecks Keep watching once it finds the player.",
+      "The status lines on every page announce their updates to screen readers (role=\"status\"), so joins, loads and errors are not silent."
     ]
   },
   {
