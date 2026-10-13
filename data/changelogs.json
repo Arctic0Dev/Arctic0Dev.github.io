@@ -5,7 +5,8 @@
     "items": [
       "Discord verification failures now show the error text Discord sent, without decoding it a second time (a stray % in it could have thrown an error).",
       "The Servers page hops and checks for an open slot from the list it just fetched, instead of acting on the one from 30 seconds earlier.",
-      "The Auto-Join row on the Join and Menu pages no longer carries an invisible extra element, so its checkbox and label sit closer together."
+      "The Auto-Join row on the Join and Menu pages no longer carries an invisible extra element, so its checkbox and label sit closer together.",
+      "The User Sniper keeps its Snipe button locked while a watch is running, so scans cannot overlap, and it unchecks Keep watching once it finds the player."
     ]
   },
   {
