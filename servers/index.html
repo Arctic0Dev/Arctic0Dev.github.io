@@ -255,7 +255,7 @@
     }
 
     function loadServers() {
-      if (!currentPlaceId) return;
+      if (!currentPlaceId) return Promise.resolve();
       setStatus('Loading servers...');
       listEl.textContent = '';
       var cursor = null;
@@ -274,7 +274,7 @@
         });
       }
 
-      page().catch(function (err) { setStatus('Failed: ' + err.message, true); });
+      return page().catch(function (err) { setStatus('Failed: ' + err.message, true); });
     }
 
     function withRoom() {
@@ -396,21 +396,24 @@
     timer = setInterval(function () {
       if (!currentPlaceId) return;
       if (mode === 'browse' && autoRefreshBox && autoRefreshBox.checked) loadServers();
-      else if (mode === 'hop' && hopKeepBox && hopKeepBox.checked) { loadServers(); hop(); }
-      else if (mode === 'watch' && watching) {
-        loadServers();
-        var pool = withRoom();
-        if (pool.length) {
-          if (watchAutoBox && watchAutoBox.checked) {
-            pool.sort(function (a, b) { return (a.playing || 0) - (b.playing || 0); });
-            setStatus('Slot open - joining the emptiest server (' + pool[0].playing + ' / ' + pool[0].maxPlayers + ').');
-            joinServer(pool[0].id);
+      else if (mode === 'hop' && hopKeepBox && hopKeepBox.checked) {
+        // Act on the freshly fetched list, not the previous tick's.
+        loadServers().then(hop);
+      } else if (mode === 'watch' && watching) {
+        loadServers().then(function () {
+          var pool = withRoom();
+          if (pool.length) {
+            if (watchAutoBox && watchAutoBox.checked) {
+              pool.sort(function (a, b) { return (a.playing || 0) - (b.playing || 0); });
+              setStatus('Slot open - joining the emptiest server (' + pool[0].playing + ' / ' + pool[0].maxPlayers + ').');
+              joinServer(pool[0].id);
+            } else {
+              setStatus('Slot open - ' + pool.length + ' server(s) have room. Click Join on one.');
+            }
           } else {
-            setStatus('Slot open - ' + pool.length + ' server(s) have room. Click Join on one.');
+            setStatus('All servers are full. Still watching...');
           }
-        } else {
-          setStatus('All servers are full. Still watching...');
-        }
+        });
       }
     }, 30000);
 

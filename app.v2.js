@@ -499,7 +499,6 @@
   function initMenuPage() {
     const modeInputs = document.querySelectorAll('input[name="joinType"]');
     const placeField = byId('place-field');
-    const inviteLinkField = byId('invite-link-field');
     const placeInput = byId('placeId');
     const instanceInput = byId('gameInstanceId');
     const inviteLinkInput = byId('inviteLink');
@@ -572,7 +571,6 @@
     function syncModeUi() {
       const mode = getMode();
       if (placeField) placeField.classList.toggle('hidden', mode === 'private');
-      if (inviteLinkField) inviteLinkField.classList.toggle('hidden', mode !== 'public');
       if (publicFields) publicFields.classList.toggle('hidden', mode !== 'public');
       if (privateFields) privateFields.classList.toggle('hidden', mode !== 'private');
     }
@@ -1242,7 +1240,7 @@
         clearVerifiedUser();
         renderVerifiedUser();
         setCommunityStatus('Discord verification failed: ' + result.error +
-          (result.errorDescription ? ' - ' + decodeURIComponent(result.errorDescription.replace(/\+/g, ' ')) : '') +
+          (result.errorDescription ? ' - ' + result.errorDescription : '') +
           ' (the Discord app must allow the redirect URI ' + window.location.origin + window.location.pathname + ')', 'error');
         stripAuthParams();
         return;
