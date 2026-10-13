@@ -274,6 +274,8 @@
           }
           stopWatch();
           clearSavedWatch();
+          // Found them - watching is over, so uncheck the box too.
+          if (watchBoxEl) watchBoxEl.checked = false;
           currentDeepLink = 'roblox://experiences/start?placeId=' + found.placeId + '&gameInstanceId=' + found.serverId;
           setResult('Found ' + user.name + '! Server: ' + found.serverId);
           joinRow.classList.remove('hidden');
@@ -282,7 +284,8 @@
           setResult('Snipe failed: ' + err.message);
         })
         .then(function () {
-          startBtn.disabled = false;
+          // Keep it locked while a watch is running so scans cannot overlap.
+          startBtn.disabled = !!(watchBoxEl && watchBoxEl.checked);
         });
     }
 
